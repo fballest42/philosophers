@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/11/29 15:49:38 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:56:29 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char **argv)
 		if (ft_check_argv(argv, philo) > 0)
 			return (ft_print_error("Invalid arguments", 2, philo));
 		// else
-		// 	ft_philomain(t_philo)
+		// 	ft_philomain(philo)
 	}
 	else
 		return (ft_print_error("Not valid number of arguments", 1, philo));
