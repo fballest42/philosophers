@@ -6,7 +6,7 @@
 #    By: fballest <fballest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:25:11 by fballest          #+#    #+#              #
-#    Updated: 2021/11/29 15:53:11 by fballest         ###   ########.fr        #
+#    Updated: 2021/12/14 13:35:22 by fballest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME = philo
 
 # SOURCES #
-SRC = philosophers.c utils.c
+SRC = philosophers.c utils.c parser.c
 OBJS = $(SRC:.c=.o)
 
 # COMPILER #

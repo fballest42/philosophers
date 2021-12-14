@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/11/29 14:29:42 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:34:33 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,15 @@ typedef struct s_philo
 }				t_philo;
 
 /*
-** PHILOSOPHERS.C
+** PARSER.C
 */
 int			ft_print_error(char *err, int errnum, t_philo *philo);
 int			ft_check_values(char **argv, int *i, t_philo *philo);
 int			ft_check_argv(char **argv, t_philo *philo);
+
+/*
+** PHILOSOPHERS.C
+*/
 int			main(int argc, char **argv);
 
 /*
