@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:33:17 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/14 13:52:08 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:51:27 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ int	ft_print_error(char *err, int errnum, t_philo *philo)
 
 int	ft_check_values(char **argv, int *i, t_philo *philo)
 {
-	if ((*i) == 1)
-		philo->philo_num = ft_atolli(argv[(*i)]);
-	else if ((*i) == 2)
-		philo->time_die = ft_atolli(argv[(*i)]);
-	else if ((*i) == 3)
-		philo->time_eat = ft_atolli(argv[(*i)]);
-	else if ((*i) == 4)
-		philo->time_sleep = ft_atolli(argv[(*i)]);
-	else if ((*i) == 5)
-		philo->eat_num = ft_atolli(argv[(*i)]);
-	if ((philo->philo_num > INT32_MAX || philo->philo_num < INT32_MIN)
-		|| (philo->time_die > INT32_MAX || philo->time_die < INT32_MIN)
-		|| (philo->time_eat > INT32_MAX || philo->time_eat < INT32_MIN)
-		|| (philo->time_sleep > INT32_MAX || philo->time_sleep < INT32_MIN)
-		|| (philo->eat_num > INT32_MAX || philo->eat_num < INT32_MIN))
+	long	num;
+
+	num = ft_atolli(argv[(*i)]);
+	if (num > INT32_MAX || num < INT32_MIN || num < 0)
 		return (1);
+	else if ((*i) == 1)
+		philo->philo_num = (int)ft_atolli(argv[(*i)]);
+	else if ((*i) == 2)
+		philo->time_die = (int)ft_atolli(argv[(*i)]);
+	else if ((*i) == 3)
+		philo->time_eat = (int)ft_atolli(argv[(*i)]);
+	else if ((*i) == 4)
+		philo->time_sleep = (int)ft_atolli(argv[(*i)]);
+	else if ((*i) == 5)
+		philo->eat_num = (int)ft_atolli(argv[(*i)]);
+	
 	return (0);
 }
 
@@ -49,6 +49,8 @@ int	ft_check_argv(char **argv, t_philo *philo)
 	while (argv[i])
 	{
 		z = 0;
+		if (argv[i][0] == '-' || argv[i][0] == '+')
+			z++;
 		while (argv[i][z])
 		{
 			if (ft_isdigit(argv[i][z]))

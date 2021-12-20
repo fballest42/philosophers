@@ -6,7 +6,7 @@
 #    By: fballest <fballest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:25:11 by fballest          #+#    #+#              #
-#    Updated: 2021/12/14 13:35:22 by fballest         ###   ########.fr        #
+#    Updated: 2021/12/20 13:41:40 by fballest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ OBJS = $(SRC:.c=.o)
 
 # COMPILER #
 CC = cc -Wall -Wextra -Werror -g #3 -fsanitize=address -O0
+CC2 = -l pthreaad
 
 # COLOUR DEFINITION #
 BLUE = \033[0;34m

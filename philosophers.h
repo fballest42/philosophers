@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/14 13:34:33 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:42:55 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct s_philo
 {
 	pthread_t	philo;
-	long		philo_num;
+	int			philo_num;
 	int			time_die;
 	int			time_eat;
 	int			time_sleep;

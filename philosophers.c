@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/14 13:33:59 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:45:56 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	main(int argc, char **argv)
 	}
 	else
 		return (ft_print_error("Not valid number of arguments", 1, philo));
+	printf("FILOSOFOS: %d\n - TIME_DIE: %d\n - TIME_EAT: %d\n - TIME_SLEEP: %d\n - EAT_NUM: %d\n", philo->philo_num, philo->time_die, philo->time_eat, philo->time_sleep, philo->eat_num);
 	return (0);
 }
