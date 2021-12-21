@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/20 13:42:55 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:56:23 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@
 # include <errno.h>
 # include <pthread.h>
 # include <sys/stat.h>
+# include <sys/time.h>
 
 typedef struct s_philo
 {
-	pthread_t	philo;
-	int			philo_num;
-	int			time_die;
-	int			time_eat;
-	int			time_sleep;
-	int			eat_num;
+	int				philo_num;
+	unsigned int	time_die;
+	unsigned int	time_eat;
+	unsigned int	time_sleep;
+	int				eat_num;
+	int				**fork;
+	int				i;
+	unsigned int	init_time;
+	unsigned int	current_time;
 }				t_philo;
 
 /*
