@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/21 12:59:24 by fballest         ###   ########.fr       */
+/*   Updated: 2021/12/22 09:05:23 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	*philo_routine(void *arg)
 
 	p1 = (t_philo *)arg;
 	p1->current_time = now() - p1->init_time;
+	philo_eat(p1);
+	philo_sleep(p1);
+	philo_think(p1);
 	printf("Este es el filosofo %d creado una vez pasado %u milisegundos\n", p1->i, p1->current_time);
 	return ((void *)0);
 }
