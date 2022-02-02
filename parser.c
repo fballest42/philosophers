@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:33:17 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/20 13:51:27 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:45:57 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,4 @@ int	ft_check_argv(char **argv, t_philo *philo)
 		i++;
 	}
 	return (0);
-}
+}∫∫

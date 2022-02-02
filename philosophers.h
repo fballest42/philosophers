@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/21 12:56:23 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/02 23:39:38 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,28 @@
 # include <errno.h>
 # include <pthread.h>
 # include <sys/stat.h>
+# include <time.h>∫
 # include <sys/time.h>
+
+typedef struct s_hilos
+{
+	int				num;
+	int				p_num;
+	unsigned int	t_die;
+	unsigned int	t_eat;
+	unsigned int	t_sleep;
+	unsigned int	t_think;
+	unsigned int	eat_num;
+	unsigned int	eaten_num;
+	int				alive;
+	int				eated;
+	unsigned int	last_eat;
+	unsigned int	start_time;
+	pthread_t		*hilo;
+	pthread_mutex_t *left_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*general;
+}				t_hilos;
 
 typedef struct s_philo
 {
@@ -29,10 +50,12 @@ typedef struct s_philo
 	unsigned int	time_eat;
 	unsigned int	time_sleep;
 	int				eat_num;
-	int				**fork;
 	int				i;
 	unsigned int	init_time;
 	unsigned int	current_time;
+	int				check;
+	t_hilos			*hilos;
+	pthread_mutex_t	*forks;
 }				t_philo;
 
 /*

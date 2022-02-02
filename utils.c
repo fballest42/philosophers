@@ -6,11 +6,21 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2021/12/20 13:52:13 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/03 00:09:54 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	print_status(char *str, t_hilos *hilos, int i)
+{
+	unsigned int	time;
+
+	time = now() - hilos->star_time;
+	pthread_mutex_lock(hilos->general);
+	printf("%lld - %s ", time, str);
+	pthread_mutex_unlock(hilos->general);
+}
 
 int	ft_isdigit(int c)
 {
