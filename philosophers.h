@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/03 00:42:21 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/03 10:25:41 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ typedef struct s_hilos
 	unsigned int	t_think;
 	unsigned int	eat_num;
 	unsigned int	eaten_num;
-	int				alive;
+	int				*alive;
 	int				eated;
 	unsigned int	last_eat;
 	unsigned int	start_time;
-	pthread_t		*hilo;
+	pthread_t		hilo;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*general;
+	pthread_mutex_t	general;
 }				t_hilos;
 
 typedef struct s_philo
@@ -54,7 +54,9 @@ typedef struct s_philo
 	unsigned int	init_time;
 	unsigned int	current_time;
 	int				check;
+	int				alives;
 	t_hilos			*hilos;
+	pthread_t		*threads;
 	pthread_mutex_t	*forks;
 }				t_philo;
 
@@ -84,15 +86,15 @@ void			waiting_for(t_philo *philo);
 ** ROUTINE.C
 */
 void			*philo_routine(void *rut);
-void			take_fork(t_hilos *hilos);
-void			sleep_routine(t_hilos *hilos);
-void			think_routine(t_hilos *hilos);
-void			eat_routine(t_hilos *hilos);
+void			take_fork(t_hilos *hilo);
+void			sleep_routine(t_hilos *hilo);
+void			think_routine(t_hilos *hilo);
+void			eat_routine(t_hilos *hilo);
 
 /*
 ** UTILS.C
 */
-void			ft_status_show(char *str, int i, t_hilos *hilos);
+void			ft_status_show(char *str, int i, t_hilos *hilo);
 int				ft_isdigit(int c);
 long int		ft_atolli(const char *str);
 void			ft_bzero(void *str, size_t n);

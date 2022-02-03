@@ -6,20 +6,20 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/03 00:46:48 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/03 14:41:48 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_status_show(char *str, int i, t_hilos *hilos)
+void	ft_status_show(char *str, int i, t_hilos *hilo)
 {
 	unsigned int	time;
 
-	time = now() - hilos->start_time;
-	pthread_mutex_lock(hilos->general);
-	printf("%u - Philosopher Nº %d %s ", time, i, str);
-	pthread_mutex_unlock(hilos->general);
+	// pthread_mutex_lock(&hilo->general);
+	time = now() - hilo->start_time;
+	printf("%u - Philosopher Nº %d %s \n", time, i, str);
+	// pthread_mutex_unlock(&hilo->general);
 }
 
 int	ft_isdigit(int c)
