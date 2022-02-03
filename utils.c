@@ -6,19 +6,19 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/03 00:09:54 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/03 00:46:48 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	print_status(char *str, t_hilos *hilos, int i)
+void	ft_status_show(char *str, int i, t_hilos *hilos)
 {
 	unsigned int	time;
 
-	time = now() - hilos->star_time;
+	time = now() - hilos->start_time;
 	pthread_mutex_lock(hilos->general);
-	printf("%lld - %s ", time, str);
+	printf("%u - Philosopher Nº %d %s ", time, i, str);
 	pthread_mutex_unlock(hilos->general);
 }
 

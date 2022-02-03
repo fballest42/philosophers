@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: fballest <fballest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:25:11 by fballest          #+#    #+#              #
-#    Updated: 2021/12/21 12:39:43 by fballest         ###   ########.fr        #
+#    Updated: 2022/02/03 00:47:15 by fballest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME = philo
 
 # SOURCES #
-SRC = philosophers.c utils.c parser.c
+SRC = philosophers.c utils.c parser.c helpers.c routine.c
 OBJS = $(SRC:.c=.o)
 
 # COMPILER #
