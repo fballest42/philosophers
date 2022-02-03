@@ -6,7 +6,7 @@
 #    By: fballest <fballest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:25:11 by fballest          #+#    #+#              #
-#    Updated: 2022/02/03 14:23:32 by fballest         ###   ########.fr        #
+#    Updated: 2022/02/04 00:23:22 by fballest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC = philosophers.c utils.c parser.c helpers.c routine.c
 OBJS = $(SRC:.c=.o)
 
 # COMPILER #
-CC = cc -Wall -Wextra -Werror -g3 -fsanitize=thread -O0
+CC = cc -Wall -Wextra -Werror #-g3 -fsanitize=thread -O0
 CC2 = -l pthreaad
 
 # COLOUR DEFINITION #

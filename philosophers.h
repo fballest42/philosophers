@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/03 10:25:41 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/04 00:18:37 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_hilos
 	unsigned int	t_think;
 	unsigned int	eat_num;
 	unsigned int	eaten_num;
-	int				*alive;
+	int				alive;
 	int				eated;
 	unsigned int	last_eat;
 	unsigned int	start_time;
