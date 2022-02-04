@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/04 11:35:08 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:26:54 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	setphilovalues(t_philo *philo, int	i)
 	philo->hilos[i].eaten_num = 0;
 	philo->hilos[i].alive = philo->alives;
 	philo->hilos[i].start_time = now();
-	philo->hilos[i].left_fork = &philo->forks[i];
 	if (i == philo->philo_num - 1)
 		philo->hilos[i].right_fork = &philo->forks[0];
 	else
 		philo->hilos[i].right_fork = &philo->forks[i + 1];
+	philo->hilos[i].left_fork = &philo->forks[i];
 }
 
 int		philomain(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/04 11:33:07 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:25:27 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ void	*philo_routine(void *rut)
 	while (hilo->alive != 1 && hilo->eated != 1)
 	{
 		if (hilo->eated != 1 && hilo->alive != 1)
+		{
 			eat_routine(hilo);
+			ft_usleep(hilo, hilo->t_eat);
+			hilo->last_eat = now();
+		}
 		if (hilo->eated != 1 && hilo->alive != 1)
 			sleep_routine(hilo);
 		if (hilo->eated != 1 && hilo->alive != 1)
@@ -74,9 +78,10 @@ void	eat_routine(t_hilos *hilo)
 	if (hilo->alive != 1)
 		ft_status_show("is eating", hilo->num, hilo);
 	i = hilo->t_eat;
-	ft_usleep(hilo, (useconds_t)(hilo->t_eat));
 	hilo->last_eat = now();
 	hilo->eaten_num++;
+	if (hilo->eaten_num == hilo->eat_num)
+		hilo->eated = 1;
 	if (hilo->num % 2)
 	{
 		pthread_mutex_unlock(hilo->right_fork);
