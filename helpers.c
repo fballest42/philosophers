@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/04 11:23:55 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:54:02 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	be_or_notbe(t_philo *philo)
 				philo->hilos[i].alive = 1;
 				philo->alives = 1;
 				philo->hilos[i].eated = 1;
-				waiting_for(philo);
+				pthread_detach(philo->hilos[i].hilo);
 			}
 			if (philo->hilos[i].eat_num != 0 && philo->hilos[i].eaten_num == philo->eat_num)
 				philo->hilos[i].eated = 1;
