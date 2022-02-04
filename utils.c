@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/03 14:41:48 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/04 10:39:19 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	ft_status_show(char *str, int i, t_hilos *hilo)
 {
 	unsigned int	time;
 
-	// pthread_mutex_lock(&hilo->general);
-	time = now() - hilo->start_time;
-	printf("%u - Philosopher Nº %d %s \n", time, i, str);
-	// pthread_mutex_unlock(&hilo->general);
+	time = now();
+	time = time - hilo->start_time;
+	printf("%d - Philosopher Nº %d %s \n", time, i, str);
 }
 
 int	ft_isdigit(int c)

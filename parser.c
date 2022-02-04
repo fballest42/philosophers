@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:33:17 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/03 00:32:38 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:14:49 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_check_values(char **argv, int *i, t_philo *philo)
 		philo->time_sleep = (int)ft_atolli(argv[(*i)]);
 	else if ((*i) == 5)
 		philo->eat_num = (int)ft_atolli(argv[(*i)]);
-	
 	return (0);
 }
 
@@ -62,5 +61,8 @@ int	ft_check_argv(char **argv, t_philo *philo)
 			return (1);
 		i++;
 	}
+	if (philo->philo_num <= 0 || philo->time_die <= 0
+		|| philo->time_eat <= 0 || philo->time_sleep <= 0 || (philo->eat_num < 0 && i == 5))
+	  	return (1);
 	return (0);
 }
