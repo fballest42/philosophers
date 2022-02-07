@@ -6,92 +6,83 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/04 12:25:27 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:27:57 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	sleep_routine(t_hilos *hilo)
+void	sleep_routine(t_hilos *p)
 {
-	if (hilo->alive != 1)
-		ft_status_show("is sleeping", hilo->num, hilo);
-	ft_usleep(hilo, (useconds_t)hilo->t_sleep);
+	if (*p->alive != 1)
+		ft_status_show("is sleeping", p->num, p);
+	ft_usleep(p, p->t_sleep);
 }
 
-void	think_routine(t_hilos *hilo)
+void	think_routine(t_hilos *p)
 {
-	if (hilo->alive != 1)
-		ft_status_show("is thinking", hilo->num, hilo);
-	ft_usleep(hilo, 50);
+	if (*p->alive != 1)
+		ft_status_show("is thinking", p->num, p);
+	ft_usleep(p, 5);
 }
 
 void	*philo_routine(void *rut)
 {
-	t_hilos		*hilo;
+	t_hilos		*p;
 
-	hilo = (t_hilos *)rut;
-	while (hilo->alive != 1 && hilo->eated != 1)
+	p = (t_hilos *)rut;
+	while (*p->alive != 1)
 	{
-		if (hilo->eated != 1 && hilo->alive != 1)
+		if (p->num % 2)
 		{
-			eat_routine(hilo);
-			ft_usleep(hilo, hilo->t_eat);
-			hilo->last_eat = now();
+			if (*p->alive != 1 && *p->eated == 0)
+				eat_routine(p);
+			if (*p->alive != 1 && *p->eated == 0)
+				sleep_routine(p);
+			if (*p->alive != 1 && *p->eated == 0)
+				think_routine(p);
 		}
-		if (hilo->eated != 1 && hilo->alive != 1)
-			sleep_routine(hilo);
-		if (hilo->eated != 1 && hilo->alive != 1)
-			think_routine(hilo);
+		else
+		{
+			if (*p->alive != 1 && *p->eated == 0)
+				think_routine(p);
+			if (*p->alive != 1 && *p->eated == 0)
+				sleep_routine(p);
+			if (*p->alive != 1 && *p->eated == 0)
+				eat_routine(p);
+		}
 	}
 	return (NULL);
 }
 
-void	take_fork(t_hilos *hilo)
+void	take_fork(t_hilos *p)
 {
-	if (hilo->num % 2)
+	if (p->num % 2)
 	{
-		pthread_mutex_lock(hilo->right_fork);
-		if (hilo->alive != 1)
-			ft_status_show("is taking the right fork", hilo->num, hilo);
-		pthread_mutex_lock(hilo->left_fork);
-		if (hilo->alive != 1)
-			ft_status_show("is taking the left fork", hilo->num, hilo);
+		pthread_mutex_lock(p->right_fork);
+		ft_status_show("is taking the right fork", p->num, p);
+		pthread_mutex_lock(p->left_fork);
+		ft_status_show("is taking the left fork", p->num, p);
 	}
 	else
 	{
-		pthread_mutex_lock(hilo->left_fork);
-		if (hilo->alive != 1 && hilo->eated != 1)
-			ft_status_show("is taking the left fork", hilo->num, hilo);
-		pthread_mutex_lock(hilo->right_fork);
-		if (hilo->alive != 1 && hilo->eated != 1)
-			ft_status_show("is taking the right fork", hilo->num, hilo);	
+		pthread_mutex_lock(p->left_fork);
+		ft_status_show("is taking the left fork", p->num, p);
+		pthread_mutex_lock(p->right_fork);
+		ft_status_show("is taking the right fork", p->num, p);	
 	}
 }
 
-void	eat_routine(t_hilos *hilo)
+void	eat_routine(t_hilos *p)
 {
-	useconds_t	 i;
-
-	pthread_mutex_lock(&hilo->general);
-	take_fork(hilo);
-	if (hilo->alive != 1)
-		ft_status_show("is eating", hilo->num, hilo);
-	i = hilo->t_eat;
-	hilo->last_eat = now();
-	hilo->eaten_num++;
-	if (hilo->eaten_num == hilo->eat_num)
-		hilo->eated = 1;
-	if (hilo->num % 2)
-	{
-		pthread_mutex_unlock(hilo->right_fork);
-		pthread_mutex_unlock(hilo->left_fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(hilo->left_fork);
-		pthread_mutex_unlock(hilo->right_fork);
-
-	}
-	pthread_mutex_unlock(&hilo->general);
+	pthread_mutex_lock(&p->general);
+	take_fork(p);
+	if (*p->alive != 1)
+		ft_status_show("is eating", p->num, p);
+	ft_usleep(p, p->t_eat);
+	p->last_eat = now();
+	p->eaten_num++;
+	pthread_mutex_unlock(p->right_fork);
+	pthread_mutex_unlock(p->left_fork);
+	pthread_mutex_unlock(&p->general);
 }

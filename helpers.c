@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/04 12:29:55 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:28:25 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	all_died(t_philo *philo, int i)
 	int		x;
 
 	x = 0;
-	pthread_detach(philo->hilos[i].hilo);
-	if (i == philo->philo_num - 1)
-		pthread_mutex_destroy(&philo->forks[0]);
-	else
-		pthread_mutex_destroy(&philo->forks[i]);
+	// pthread_detach(philo->hilos[i].hilo);
+	// if (i == philo->philo_num - 1)
+	// 	pthread_mutex_destroy(&philo->forks[0]);
+	// else
+	// 	pthread_mutex_destroy(&philo->forks[i]);
 	while (x < philo->philo_num)
 	{
 		if (x == i)
@@ -68,21 +68,21 @@ void	be_or_notbe(t_philo *philo)
 	while (philo->alives != 1)
 	{
 		i = 0;
-		while (i < philo->philo_num)
+		while (i < philo->philo_num && philo->alives != 1)
 		{
 			if (philo->hilos[i].t_die <  (now() - philo->hilos[i].last_eat))
 			{
-				if (philo->hilos[i].alive != 1 && philo->hilos[i].eated != 1)
+				if (*philo->hilos[i].alive != 1)
 					ft_status_show("is died", i + 1, &philo->hilos[i]);
-				philo->hilos[i].alive = 1;
-				philo->alives = 1;
-				all_died(philo, i);
+				*philo->hilos[i].alive = 1;
+				// pthread_mutex_destroy(&philo->forks[0]);
+				// pthread_mutex_destroy(&philo->forks[1]);
+				// pthread_mutex_destroy(&philo->hilos[i].general);
+				// waiting_for(philo);
+				// pthread_detach(philo->hilos[i].hilo);
 			}
-			if (philo->hilos[i].eat_num != 0 && philo->hilos[i].eaten_num == philo->eat_num)
-			{
-				philo->hilos[i].eated = 1;
-				philo->hilos[i].alive = 1;
-			}
+			if (philo->hilos[i].eaten_num == philo->eat_num)
+				*philo->hilos[i].eated = 1;
 			i++;
 		}
 	}
@@ -95,7 +95,6 @@ void	waiting_for(t_philo *philo)
 	i = 0;
 	while(i < philo->philo_num)
 	{
-		pthread_detach(philo->hilos[i].hilo);
-		pthread_mutex_destroy(&philo->forks[i]);
+		pthread_join(philo->hilos[i].hilo, NULL);
 	}
 }

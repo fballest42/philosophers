@@ -6,18 +6,18 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/04 10:39:19 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/07 10:00:10 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_status_show(char *str, int i, t_hilos *hilo)
+void	ft_status_show(char *str, int i, t_hilos *p)
 {
 	unsigned int	time;
 
 	time = now();
-	time = time - hilo->start_time;
+	time = time - p->start_time;
 	printf("%d - Philosopher Nº %d %s \n", time, i, str);
 }
 
