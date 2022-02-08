@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/07 12:11:13 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 11:25:46 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ typedef struct s_hilos
 	unsigned int	eat_num;
 	unsigned int	eaten_num;
 	int				*alive;
-	int				*eated;
+	int				eated;
 	unsigned int	last_eat;
 	unsigned int	start_time;
 	pthread_t		hilo;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	general;
+	pthread_mutex_t	*printing;
 }				t_hilos;
 
 typedef struct s_philo
@@ -58,6 +59,7 @@ typedef struct s_philo
 	t_hilos			*hilos;
 	pthread_t		*threads;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	printer;
 }				t_philo;
 
 /*
@@ -79,6 +81,7 @@ void			philofree(t_philo *philo);
 ** HELPERS.C
 */
 unsigned int	now(void);
+int				check_eated(t_philo *philo);
 void			be_or_notbe(t_philo *philo);
 void			waiting_for(t_philo *philo);
 void			ft_usleep(t_hilos *hilo, unsigned int time);
