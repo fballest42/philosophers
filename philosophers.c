@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 13:32:08 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:15:22 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		philomain(t_philo *philo)
 		if (pthread_create(&philo->hilos[philo->i].hilo, NULL,
 				philo_routine, &philo->hilos[philo->i]) != 0)
 			return (1);
-		ft_usleep(&philo->hilos[philo->i], 1);
+		ft_usleep(&philo->hilos[philo->i], 5);
 		philo->i++;
 	}
 	return (0);

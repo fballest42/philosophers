@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 13:35:48 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:15:27 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	think_routine(t_hilos *p)
 {
 	if (*p->alive != 1)
 		ft_status_show("is thinking", p->num, p);
+	usleep(5);
 }
 
 void	*philo_routine(void *rut)
