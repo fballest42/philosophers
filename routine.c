@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 12:11:02 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:35:48 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,12 @@ void	*philo_routine(void *rut)
 	p = (t_hilos *)rut;
 	while (*p->alive != 1 && p->eated != 1)
 	{
-		if (p->num % 2)
-		{
-			if (*p->alive == 0 && p->eated == 0)
-				eat_routine(p);
-			if (*p->alive == 0 && p->eated == 0)
-				sleep_routine(p);
-			if (*p->alive == 0 && p->eated == 0)
-				think_routine(p);
-		}
-		else
-		{
-			if (*p->alive == 0 && p->eated == 0)
-				think_routine(p);
-			if (*p->alive == 0 && p->eated == 0)
-				sleep_routine(p);
-			if (*p->alive == 0 && p->eated == 0)
-				eat_routine(p);
-		}
+		if (*p->alive == 0 && p->eated == 0)
+			eat_routine(p);
+		if (*p->alive == 0 && p->eated == 0)
+			sleep_routine(p);
+		if (*p->alive == 0 && p->eated == 0)
+			think_routine(p);
 	}
 	return (NULL);
 }

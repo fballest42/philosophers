@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 11:25:46 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:51:21 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_hilos
 	int				*alive;
 	int				eated;
 	unsigned int	last_eat;
+	unsigned int	init_t;
 	unsigned int	start_time;
 	pthread_t		hilo;
 	pthread_mutex_t *left_fork;

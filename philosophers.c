@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 12:11:30 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:32:08 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	setphilovalues(t_philo *philo, int	i)
 	pthread_mutex_init(&philo->hilos[philo->i].general, NULL);
 	philo->hilos[i].alive = &philo->alives;
 	philo->hilos[i].eated = 0;
-	philo->hilos[i].start_time = philo->init_time;
+	philo->hilos[i].init_t = philo->init_time;
+	philo->hilos[i].start_time = now();
 	philo->hilos[i].num = i + 1;
 	philo->hilos[i].t_die = philo->time_die;
 	philo->hilos[i].t_eat = philo->time_eat;
@@ -27,15 +28,10 @@ void	setphilovalues(t_philo *philo, int	i)
 	philo->hilos[i].eaten_num = 0;
 	philo->hilos[i].printing = &philo->printer;
 	if (i == 0)
-	{
 		philo->hilos[i].left_fork = &philo->forks[philo->philo_num - 1];
-		philo->hilos[i].right_fork = &philo->forks[i];
-	}
 	else
-	{
 		philo->hilos[i].left_fork = &philo->forks[i - 1];
-		philo->hilos[i].right_fork = &philo->forks[i];
-	}
+	philo->hilos[i].right_fork = &philo->forks[i];
 }
 
 int		philomain(t_philo *philo)
@@ -48,13 +44,13 @@ int		philomain(t_philo *philo)
 	while (philo->i < philo->philo_num)
 		pthread_mutex_init(&philo->forks[philo->i++], NULL);
 	philo->i = 0;
-	while (philo->i <= philo->philo_num)
+	while (philo->i < philo->philo_num)
 	{
 		setphilovalues(philo, philo->i);
 		if (pthread_create(&philo->hilos[philo->i].hilo, NULL,
 				philo_routine, &philo->hilos[philo->i]) != 0)
 			return (1);
-		ft_usleep(&philo->hilos[philo->i], 5);
+		ft_usleep(&philo->hilos[philo->i], 1);
 		philo->i++;
 	}
 	return (0);

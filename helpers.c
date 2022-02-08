@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 11:32:36 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:36:14 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ unsigned int	now(void)
 
 void	ft_usleep(t_hilos *hilo, unsigned int time)
 {
-	unsigned int	init_time;
+	unsigned int	init_tim;
 	unsigned int	fin_time;
 
-	init_time = now();
+	init_tim = now();
 	if (time == 1)
 		time = time / 1000;
-	fin_time = init_time + time;
+	fin_time = init_tim + time;
 	while (time < fin_time)
 	{
 		time = now();
@@ -88,7 +88,6 @@ void	be_or_notbe(t_philo *philo)
 		if (check_eated(philo))
 			break ;
 	}
-
 }
 
 void	waiting_for(t_philo *philo)

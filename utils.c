@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 11:27:16 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:52:08 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_status_show(char *str, int i, t_hilos *p)
 	unsigned int	time;
 
 	time = now();
-	time = time - p->start_time;
+	time = time - p->init_t;
 	if (*p->alive == 0)
 		printf("%d - Philosopher Nº %d %s \n", time, i, str);
 	pthread_mutex_unlock(p->printing);
