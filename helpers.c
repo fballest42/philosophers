@@ -6,105 +6,84 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 15:13:46 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 16:39:24 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-unsigned int	now(void)
+unsigned long	now(void)
 {
 	struct timeval	current_time;
-	unsigned int	time;
 
 	gettimeofday(&current_time, NULL);
-	time = ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
-	return (time);
+	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
 }
 
-void	ft_usleep(t_hilos *hilo, unsigned int time)
+void	ft_usleep(int wait)
 {
-	unsigned int	init_tim;
-	unsigned int	fin_time;
+	unsigned long	time;
 
-	init_tim = now();
-	if (time == 1)
-		time = time / 1000;
-	fin_time = init_tim + time;
-	while (time < fin_time)
-	{
-		time = now();
-		usleep(hilo->p_num);
-	}
+	time = now();
+	while (now() < (time + wait))
+		usleep(10);
 }
 
-void	all_died(t_philo *philo, int i)
+int		check_meals(t_data *data, int i)
 {
-	int		x;
-
-	x = 0;
-	while (x < philo->philo_num)
-	{
-		pthread_detach(philo->hilos[x].hilo);
-		pthread_mutex_destroy(&philo->forks[x]);
-		pthread_mutex_destroy(&philo->hilos[i].general);
-		x++;
-	}
-}
-
-int		check_eated(t_philo *philo)
-{
-	int 	i;
-
-	i = 0;
-	while (i < philo->philo_num)
-	{
-		if (philo->hilos[i].eated == 0)
-			return (0);
+	while (data->eat_num && i < data->philo_num
+		&& data->philos[i].meals >= data->eat_num)
 		i++;
-	}
-	return (1);
+	if (i == data->philo_num)
+		data->full = 1;
+	return (i);
 }
 
-void	be_or_notbe(t_philo *philo)
+void	be_or_notbe(t_data *data)
 {
 	int		i;
-	while (philo->alives == 0)
+
+	while (data->full == 0)
 	{
 		i = 0;
-		while (i < philo->philo_num && philo->alives == 0 && philo->hilos[i].eated == 0)
+		while (i < data->philo_num && data->stop == 0)
 		{
-			if (philo->hilos[i].t_die <  (now() - philo->hilos[i].last_eat))
+			pthread_mutex_lock(&(data->eater));
+			if (data->time_die <  (int)(now() - data->philos[i].last_eat))
 			{
-				if (*philo->hilos[i].alive == 0)
-					ft_status_show("is died", i + 1, &philo->hilos[i]);
-				*philo->hilos[i].alive = 1;
-				waiting_for(philo);
+				ft_status_show("is died ❌", i + 1, &(data->philos[i]));
+				data->stop = 1;
 			}
-			if (philo->hilos[i].eated == 1)
-				break ;
+			pthread_mutex_unlock(&data->eater);
 			i++;
 		}
-		if (check_eated(philo))
+		if (data->stop == 1)
 			break ;
+		i = 0;
+		while (data->eat_num != -1 && i < data->philo_num
+			&& data->philos[i].meals >= data->eat_num)
+			i++;
+		data->full = (i == data->philo_num);
 	}
 }
 
-void	waiting_for(t_philo *philo)
+void	philofree(t_data *data)
 {
 	int		i;
 
 	i = 0;
-
-	pthread_mutex_destroy(&philo->printer);
-	while(i < philo->philo_num)
-		pthread_join(philo->hilos[i++].hilo, NULL);
-	i = 0;
-	while (i < philo->philo_num)
+	while (i < data->philo_num)
 	{
-		pthread_mutex_destroy(&philo->forks[i]);
-		pthread_mutex_destroy(&philo->hilos[i].general);
-		pthread_detach(philo->hilos[i++].hilo);
+		data->philos[i].left_fork = NULL;
+		data->philos[i].right_fork = NULL;
+		pthread_mutex_destroy(&data->forks[i]);
+		data->philos[i].dp = NULL;
+		i++;
 	}
-	
+	free(data->philos);
+	data->philos = NULL;
+	free(data->forks);
+	data->forks = NULL;
+	pthread_mutex_destroy(&data->printer);
+	pthread_mutex_destroy(&data->eater);
 }

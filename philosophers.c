@@ -6,81 +6,114 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 15:15:22 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 16:38:22 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	setphilovalues(t_philo *philo, int	i)
+int	setphilovalues(t_data *data)
 {
-	philo->hilos[i].last_eat = now();
-	pthread_mutex_init(&philo->hilos[philo->i].general, NULL);
-	philo->hilos[i].alive = &philo->alives;
-	philo->hilos[i].eated = 0;
-	philo->hilos[i].init_t = philo->init_time;
-	philo->hilos[i].start_time = now();
-	philo->hilos[i].num = i + 1;
-	philo->hilos[i].t_die = philo->time_die;
-	philo->hilos[i].t_eat = philo->time_eat;
-	philo->hilos[i].t_sleep = philo->time_sleep;
-	philo->hilos[i].eat_num = philo->eat_num;
-	philo->hilos[i].eaten_num = 0;
-	philo->hilos[i].printing = &philo->printer;
-	if (i == 0)
-		philo->hilos[i].left_fork = &philo->forks[philo->philo_num - 1];
-	else
-		philo->hilos[i].left_fork = &philo->forks[i - 1];
-	philo->hilos[i].right_fork = &philo->forks[i];
+	int			i;
+
+	i = 0;
+	data->philos = (t_philos *)malloc(sizeof(t_philos) * data->philo_num);
+	if (!data->philos)
+		return (1);
+	while (i < data->philo_num)
+	{
+		data->philos[i].num = i + 1;
+		data->philos[i].dp = data;
+		data->philos[i].last_eat = now();
+		data->philos[i].meals = 0;
+		data->philos[i].right_fork = &(data->forks[i]);
+		if (i == 0)
+			data->philos[i].left_fork = &(data->forks[data->philo_num - 1]);
+		else
+			data->philos[i].left_fork = &(data->forks[i - 1]);
+		i++;
+	}
+	data->stop = 0;
+	data->full = 0;
+	data->init_time = now();
+	return (0);
 }
 
-int		philomain(t_philo *philo)
+int		init_forks(t_data *data)
 {
-	philo->i = 0;
-	philo->hilos = malloc(sizeof(t_hilos) * philo->philo_num);
-	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->philo_num);
-	pthread_mutex_init(&philo->printer, NULL);
-	philo->init_time = now();
-	while (philo->i < philo->philo_num)
-		pthread_mutex_init(&philo->forks[philo->i++], NULL);
-	philo->i = 0;
-	while (philo->i < philo->philo_num)
+	int		i;
+
+	i = 0;
+	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->philo_num);
+	if (!data->forks)
+		return (1);
+	while (i < data->philo_num)
 	{
-		setphilovalues(philo, philo->i);
-		if (pthread_create(&philo->hilos[philo->i].hilo, NULL,
-				philo_routine, &philo->hilos[philo->i]) != 0)
+		if (pthread_mutex_init(&(data->forks[i]), NULL))
 			return (1);
-		ft_usleep(&philo->hilos[philo->i], 5);
-		philo->i++;
+		i++;
 	}
 	return (0);
 }
 
-void	philofree(t_philo *philo)
+int		joining_philos(t_data *data)
 {
-	free(philo->hilos);
-	free(philo->forks);
-	free(philo);
+	int		i;
+
+	i = 0;
+	while (i < data->philo_num)
+	{
+		if (pthread_join(data->philos[i].thread, NULL))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int		philomain(t_data *data)
+{
+	int		i;
+
+	i = 0;
+	if(init_forks(data))
+		return (1);
+	if(setphilovalues(data))
+		return (1);
+	while (i < data->philo_num)
+	{
+		if (pthread_create(&(data->philos[i].thread), NULL,
+				philo_routine, &(data->philos[i])))
+				return (1);
+		i++;
+	}
+	be_or_notbe(data);
+	pthread_mutex_lock(&(data->printer));
+	if (data->full == 1)
+		printf("All the Philosophers have eaten %d times.\n", data->eat_num);
+	pthread_mutex_unlock(&(data->printer));
+	if (joining_philos(data))
+		return (1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_philo		*philo;
+	int			i;
+	t_data		data;
 
-	philo = ft_calloc(sizeof(t_philo), 1);
+	i = 0;
 	if (argc == 5 || argc == 6)
 	{
 		if (argc == 5)
-			philo->eat_num = -1;
-		if (ft_check_argv(argv, philo) != 0)
-			return (ft_print_error("Invalid arguments", 2, philo));
-		if (philomain(philo) != 0)
-			return (ft_print_error("Can't create phillosphers", 3, philo));
-		be_or_notbe(philo);
-		waiting_for(philo);
+			data.eat_num = -1;
+		if (ft_check_argv(argv, &data) != 0)
+			i = (ft_print_error("Invalid arguments", 2));
+		if (i == 0 && philomain(&data) != 0)
+			i = (ft_print_error("Can't create phillosphers", 3));
 	}
 	else
-		return (ft_print_error("Not valid number of arguments", 1, philo));
-	philofree(philo);
-	return (0);
+		i = (ft_print_error("Not valid number of arguments", 1));
+	if (i == 0)
+		philofree(&data);
+	return (i);
 }

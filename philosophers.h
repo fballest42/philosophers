@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/08 12:51:21 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 16:30:01 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,85 +23,78 @@
 # include <time.h>
 # include <sys/time.h>
 
-typedef struct s_hilos
+typedef struct s_philos
 {
 	int				num;
-	int				p_num;
-	unsigned int	t_die;
-	unsigned int	t_eat;
-	unsigned int	t_sleep;
-	unsigned int	eat_num;
-	unsigned int	eaten_num;
-	int				*alive;
-	int				eated;
-	unsigned int	last_eat;
-	unsigned int	init_t;
-	unsigned int	start_time;
-	pthread_t		hilo;
+	int				meals;
+	unsigned long	last_eat;
+	pthread_t		thread;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	general;
-	pthread_mutex_t	*printing;
-}				t_hilos;
+	struct s_data	*dp;
+}				t_philos;
 
-typedef struct s_philo
+typedef struct s_data
 {
 	int				philo_num;
-	unsigned int	time_die;
-	unsigned int	time_eat;
-	unsigned int	time_sleep;
-	unsigned int	eat_num;
-	int				i;
-	unsigned int	init_time;
-	unsigned int	current_time;
-	int				check;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				eat_num;
+	int				full;
+	unsigned long	init_time;
+	unsigned long	current_time;
+	int				stop;
 	int				alives;
 	int				a_eated;
-	t_hilos			*hilos;
-	pthread_t		*threads;
+	t_philos		*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
-}				t_philo;
+	pthread_mutex_t	eater;
+}				t_data;
 
 /*
 ** PARSER.C
 */
-int				ft_print_error(char *err, int errnum, t_philo *philo);
-int				ft_check_values(char **argv, int *i, t_philo *philo);
-int				ft_check_argv(char **argv, t_philo *philo);
+int				ft_print_error(char *err, int errnum);
+int				init_values(t_data *data);
+int				ft_check_values(char **argv, int *i, t_data *data);
+int				ft_check_argv(char **argv, t_data *data);
 
 /*
 ** PHILOSOPHERS.C
 */
+int				setphilovalues(t_data *data);
+int				init_forks(t_data *data);
+int				joining_philos(t_data *data);
+int				philomain(t_data *data);
 int				main(int argc, char **argv);
-int				philomain(t_philo *philo);
-void			setphilovalues(t_philo *philo, int	i);
-void			philofree(t_philo *philo);
 
 /*
 ** HELPERS.C
 */
-unsigned int	now(void);
-int				check_eated(t_philo *philo);
-void			be_or_notbe(t_philo *philo);
-void			waiting_for(t_philo *philo);
-void			ft_usleep(t_hilos *hilo, unsigned int time);
+unsigned long	now(void);
+void			ft_usleep(int wait);
+int				check_meals(t_data *data, int i);
+void			be_or_notbe(t_data *data);
+void			philofree(t_data *data);
 
 /*
 ** ROUTINE.C
 */
+void			sleep_routine(t_philos *p);
+void			think_routine(t_philos *p);
 void			*philo_routine(void *rut);
-void			take_fork(t_hilos *hilo);
-void			sleep_routine(t_hilos *hilo);
-void			think_routine(t_hilos *hilo);
-void			eat_routine(t_hilos *hilo);
+int				take_fork(t_philos *p);
+void			eat_routine(t_philos *p);
 
 /*
 ** UTILS.C
 */
-void			ft_status_show(char *str, int i, t_hilos *hilo);
+void			ft_status_show(char *str, int i, t_philos *p);
 int				ft_isdigit(int c);
 long int		ft_atolli(const char *str);
 void			ft_bzero(void *str, size_t n);
 void			*ft_calloc(size_t count, size_t size);
+
 #endif

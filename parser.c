@@ -6,20 +6,30 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:33:17 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/07 12:29:15 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 11:57:03 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_print_error(char *err, int errnum, t_philo *philo)
+int	ft_print_error(char *err, int errnum)
 {
 	printf("Error : %s\n", err);
-	free (philo);
 	return (errnum);
 }
 
-int	ft_check_values(char **argv, int *i, t_philo *philo)
+int	init_values(t_data *data)
+{
+	data->forks = NULL;
+	data->philos = NULL;
+	if (pthread_mutex_init(&data->printer, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->eater, NULL))
+		return (1);
+	return (0);
+}
+
+int	ft_check_values(char **argv, int *i, t_data *data)
 {
 	long	num;
 
@@ -27,19 +37,21 @@ int	ft_check_values(char **argv, int *i, t_philo *philo)
 	if (num > INT32_MAX || num < INT32_MIN || num <= 0)
 		return (1);
 	else if ((*i) == 1)
-		philo->philo_num = (int)ft_atolli(argv[(*i)]);
+		data->philo_num = (int)ft_atolli(argv[(*i)]);
 	else if ((*i) == 2)
-		philo->time_die = (int)ft_atolli(argv[(*i)]);
+		data->time_die = (int)ft_atolli(argv[(*i)]);
 	else if ((*i) == 3)
-		philo->time_eat = (int)ft_atolli(argv[(*i)]);
+		data->time_eat = (int)ft_atolli(argv[(*i)]);
 	else if ((*i) == 4)
-		philo->time_sleep = (int)ft_atolli(argv[(*i)]);
+		data->time_sleep = (int)ft_atolli(argv[(*i)]);
 	else if ((*i) == 5)
-		philo->eat_num = (int)ft_atolli(argv[(*i)]);
+		data->eat_num = (int)ft_atolli(argv[(*i)]);
+	if (init_values(data))
+		return (1);
 	return (0);
 }
 
-int	ft_check_argv(char **argv, t_philo *philo)
+int	ft_check_argv(char **argv, t_data *data)
 {
 	int		i;
 	int		z;
@@ -57,14 +69,9 @@ int	ft_check_argv(char **argv, t_philo *philo)
 			else
 				return (1);
 		}
-		if (ft_check_values(argv, &i, philo) > 0)
+		if (ft_check_values(argv, &i, data) > 0)
 			return (1);
 		i++;
 	}
-	philo->alives = 0;
-	philo->a_eated = 0;
-	// if (philo->philo_num <= 0 || philo->time_die <= 0
-	// 	|| philo->time_eat <= 0 || philo->time_sleep <= 0 || (philo->eat_num < 0 && i == 5))
-	//   	return (1);
 	return (0);
 }
