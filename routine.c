@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 16:21:35 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 18:53:29 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	sleep_routine(t_philos *p)
 {
-	if (p->dp->stop == 0 && p->dp->full == 0)
+	if (p->dp->alive == 0 && p->dp->eaten == 0)
 		ft_status_show("is sleeping 🛌", p->num, p);
 	ft_usleep(p->dp->time_sleep);
 }
 
 void	think_routine(t_philos *p)
 {
-	if (p->dp->stop == 0 && p->dp->full == 0)
+	if (p->dp->alive == 0 && p->dp->eaten == 0)
 		ft_status_show("is thinking 💭", p->num, p);
 }
 
@@ -38,7 +38,7 @@ void	*philo_routine(void *rut)
 	}
 	if (p->num % 2)
 		ft_usleep(2);
-	while (p->dp->stop == 0 && p->dp->full == 0)
+	while (p->dp->alive == 0 && p->dp->eaten == 0)
 	{
 		eat_routine(p);
 		sleep_routine(p);
@@ -49,19 +49,19 @@ void	*philo_routine(void *rut)
 
 int	take_fork(t_philos *p)
 {
-	if (p->num % 2)
+	if (p->num == p->dp->philo_num + 1)
 	{
-		pthread_mutex_lock(p->right_fork);
-		ft_status_show("has taken the right fork 🍴", p->num, p);
 		pthread_mutex_lock(p->left_fork);
 		ft_status_show("has taken the left fork 🍴", p->num, p);
+		pthread_mutex_lock(p->right_fork);
+		ft_status_show("has taken the right fork 🍴", p->num, p);
 	}
 	else
 	{
-		pthread_mutex_lock(p->left_fork);
-		ft_status_show("has taken the left fork 🍴", p->num, p);
 		pthread_mutex_lock(p->right_fork);
 		ft_status_show("has taken the right fork 🍴", p->num, p);
+		pthread_mutex_lock(p->left_fork);
+		ft_status_show("has taken the left fork 🍴", p->num, p);
 	}
 	return (0);
 }

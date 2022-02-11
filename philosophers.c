@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 16:38:22 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 18:50:30 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	setphilovalues(t_data *data)
 			data->philos[i].left_fork = &(data->forks[i - 1]);
 		i++;
 	}
-	data->stop = 0;
-	data->full = 0;
+	data->alive = 0;
+	data->eaten = 0;
 	data->init_time = now();
 	return (0);
 }
@@ -87,10 +87,9 @@ int		philomain(t_data *data)
 		i++;
 	}
 	be_or_notbe(data);
-	pthread_mutex_lock(&(data->printer));
-	if (data->full == 1)
-		printf("All the Philosophers have eaten %d times.\n", data->eat_num);
 	pthread_mutex_unlock(&(data->printer));
+	if (data->eaten == 1)
+		printf("All the Philosophers have eaten %d times ✅\n", data->eat_num);
 	if (joining_philos(data))
 		return (1);
 	return (0);

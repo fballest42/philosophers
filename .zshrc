@@ -7,4 +7,4 @@ alias gt="ga ; gm ; gp"
 export PATH=$HOME/.brew/bin:$PATH
 PROMPT='%B%F{yellow}Nano > %f%b'
 # Load Homebrew config script
-source $HOME/.brewconfig.zsh
+# source $HOME/.brewconfig.zsh

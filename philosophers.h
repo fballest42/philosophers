@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 16:30:01 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/11 16:52:08 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ typedef struct s_data
 	int				time_eat;
 	int				time_sleep;
 	int				eat_num;
-	int				full;
+	int				eaten;
 	unsigned long	init_time;
 	unsigned long	current_time;
-	int				stop;
-	int				alives;
-	int				a_eated;
+	int				alive;
 	t_philos		*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
