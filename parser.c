@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:33:17 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 11:57:03 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/14 10:51:16 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_print_error(char *err, int errnum)
 {
-	printf("Error : %s\n", err);
+	write(1, "Error : ", 8);
+	write(1, err, ft_strlen(err));
 	return (errnum);
 }
 

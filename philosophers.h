@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 16:52:08 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/15 10:23:23 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_philos
 	int				meals;
 	unsigned long	last_eat;
 	pthread_t		thread;
-	pthread_mutex_t *left_fork;
+	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	struct s_data	*dp;
 }				t_philos;
@@ -73,7 +73,7 @@ int				main(int argc, char **argv);
 */
 unsigned long	now(void);
 void			ft_usleep(int wait);
-int				check_meals(t_data *data, int i);
+void			dead_routine(t_data *data);
 void			be_or_notbe(t_data *data);
 void			philofree(t_data *data);
 
@@ -89,10 +89,9 @@ void			eat_routine(t_philos *p);
 /*
 ** UTILS.C
 */
-void			ft_status_show(char *str, int i, t_philos *p);
+int				ft_strlen(char *str);
+void			ft_status_show(char *str, int i, t_philos *p, int force);
 int				ft_isdigit(int c);
 long int		ft_atolli(const char *str);
-void			ft_bzero(void *str, size_t n);
-void			*ft_calloc(size_t count, size_t size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:31:05 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 18:50:30 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/14 12:15:57 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	setphilovalues(t_data *data)
 	return (0);
 }
 
-int		init_forks(t_data *data)
+int	init_forks(t_data *data)
 {
 	int		i;
 
 	i = 0;
-	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->philo_num);
+	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* data->philo_num);
 	if (!data->forks)
 		return (1);
 	while (i < data->philo_num)
@@ -56,7 +57,7 @@ int		init_forks(t_data *data)
 	return (0);
 }
 
-int		joining_philos(t_data *data)
+int	joining_philos(t_data *data)
 {
 	int		i;
 
@@ -70,26 +71,23 @@ int		joining_philos(t_data *data)
 	return (0);
 }
 
-int		philomain(t_data *data)
+int	philomain(t_data *data)
 {
 	int		i;
 
 	i = 0;
-	if(init_forks(data))
+	if (init_forks(data))
 		return (1);
-	if(setphilovalues(data))
+	if (setphilovalues(data))
 		return (1);
 	while (i < data->philo_num)
 	{
 		if (pthread_create(&(data->philos[i].thread), NULL,
 				philo_routine, &(data->philos[i])))
-				return (1);
+			return (1);
 		i++;
 	}
 	be_or_notbe(data);
-	pthread_mutex_unlock(&(data->printer));
-	if (data->eaten == 1)
-		printf("All the Philosophers have eaten %d times ✅\n", data->eat_num);
 	if (joining_philos(data))
 		return (1);
 	return (0);
@@ -106,12 +104,12 @@ int	main(int argc, char **argv)
 		if (argc == 5)
 			data.eat_num = -1;
 		if (ft_check_argv(argv, &data) != 0)
-			i = (ft_print_error("Invalid arguments", 2));
+			i = (ft_print_error("Invalid arguments\n", 2));
 		if (i == 0 && philomain(&data) != 0)
-			i = (ft_print_error("Can't create phillosphers", 3));
+			i = (ft_print_error("Can't create phillosphers\n", 3));
 	}
 	else
-		i = (ft_print_error("Not valid number of arguments", 1));
+		i = (ft_print_error("Not valid number of arguments\n", 1));
 	if (i == 0)
 		philofree(&data);
 	return (i);

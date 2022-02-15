@@ -6,20 +6,30 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 16:47:01 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/14 12:08:08 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_status_show(char *str, int i, t_philos *p)
+int	ft_strlen(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ft_status_show(char *str, int i, t_philos *p, int force)
 {
 	unsigned long		time;
 
 	pthread_mutex_lock(&(p->dp->printer));
 	time = now() - p->dp->init_time;
-	if (p->dp->alive == 0 && p->dp->eaten == 0)
-		printf("%lu - Philosopher Nº %d %s \n", time, i, str);
+	if ((p->dp->alive == 0 && p->dp->eaten == 0) || force)
+		printf("[%lu] - %d %s \n", time, i, str);
 	pthread_mutex_unlock(&(p->dp->printer));
 }
 
@@ -56,30 +66,4 @@ long int	ft_atolli(const char *str)
 	if (sign == 1)
 		return (-res);
 	return (res);
-}
-
-void	ft_bzero(void *str, size_t n)
-{
-	char		*c;
-	size_t		i;
-
-	c = (char *)str;
-	i = 0;
-	while (i < n)
-	{
-		*c = '\0';
-		c++;
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char		*ptr;
-
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (0);
-	ft_bzero(ptr, count * size);
-	return ((void *)ptr);
 }

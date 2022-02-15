@@ -6,7 +6,7 @@
 /*   By: fballest <fballest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:32:14 by fballest          #+#    #+#             */
-/*   Updated: 2022/02/11 18:48:49 by fballest         ###   ########.fr       */
+/*   Updated: 2022/02/15 10:23:11 by fballest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,7 @@ void	ft_usleep(int wait)
 
 	time = now();
 	while (now() < (time + wait))
-		usleep(10);
-}
-
-int		check_meals(t_data *data, int i)
-{
-	while (data->eat_num && i < data->philo_num
-		&& data->philos[i].meals >= data->eat_num)
-		i++;
-	if (i == data->philo_num)
-		data->eaten = 1;
-	return (i);
+		usleep(500);
 }
 
 void	be_or_notbe(t_data *data)
@@ -49,11 +39,10 @@ void	be_or_notbe(t_data *data)
 		while (i < data->philo_num && data->alive == 0)
 		{
 			pthread_mutex_lock(&(data->eater));
-			if (data->time_die <  (int)(now() - data->philos[i].last_eat))
+			if (data->time_die < (int)(now() - data->philos[i].last_eat))
 			{
-				ft_status_show("is died ❌", i + 1, &(data->philos[i]));
-				pthread_mutex_lock(&(data->printer));
 				data->alive = 1;
+				ft_status_show("is died", i + 1, &(data->philos[i]), 1);
 			}
 			pthread_mutex_unlock(&(data->eater));
 			i++;

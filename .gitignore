@@ -1,5 +1,4 @@
 *.o
 philo
 .DS_Store
-Info/*.*
 .vscode
