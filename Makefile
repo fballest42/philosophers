@@ -6,7 +6,7 @@
 #    By: fballest <fballest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:25:11 by fballest          #+#    #+#              #
-#    Updated: 2022/02/14 11:51:31 by fballest         ###   ########.fr        #
+#    Updated: 2022/06/09 13:49:11 by fballest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS = $(SRC:.c=.o)
 
 # COMPILER #
 CC = cc -Wall -Wextra -Werror -O3 #3 -fsanitize=thread -O0
-CC2 = -l pthreaad
+CC2 = -l pthread
 
 # COLOUR DEFINITION #
 BLUE = \033[0;34m
